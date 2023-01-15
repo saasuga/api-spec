@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  title: Saasuga API Specifications
+  description: Free and Open Source URL Shortener
+  contact:
+    name: Ahmad Irsyadul Ibad
+    url: 'https://irsyadulibad.my.id'
+    email: ahmadirsyadulibad7@gmail.com
+  version: 0.0.1
+  license:
+    name: MIT
+    url: 'https://github.com/Degovan/saasuga-backend/blob/main/LICENSE'
+servers:
+  - url: 'https://backend.saasu.ga/api'
+    description: Production Server
+    variables: {}
+  - url: 'https://backend-dev.saasu.ga/api'
+    description: Development Server
+paths:
+  '/login/{provider}':
+    get:
+      summary: Redirect for Login to Social Account
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: Success Login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSchema'
+              example:
+                meta:
+                  code: 200
+                  status: success
+                  message: Success getting redirect url
+                data:
+                  redirect_url: >-
+                    https://accounts.google.com/o/oauth2/auth?scope=openid+profile+email&response_type=code
+      parameters:
+        - name: provider
+          required: true
+          in: path
+          schema:
+            type: string
+            enum:
+              - google
+              - github
+  '/login/{provider}/callback':
+    get:
+      summary: Get Logged in Account
+      description: ''
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - google
+              - github
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+      operationId: ''
+      responses:
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSchema'
+              example:
+                meta:
+                  code: 200
+                  status: success
+                  message: Login successfully
+                data:
+                  user:
+                    name: User
+                    email: email@example.com
+                  access_token: 12345678
+      tags:
+        - Auth
+security: []
+components:
+  links: {}
+  callbacks: {}
+  schemas:
+    ResponseSchema:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              format: int32
+            status:
+              type: string
+            message:
+              type: string
+        data:
+          type: object
+tags: []
