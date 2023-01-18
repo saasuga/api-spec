@@ -46,8 +46,7 @@ paths:
             enum:
               - google
               - github
-  '/login/{provider}/callback':
-    get:
+    post:
       summary: Get Logged in Account
       description: ''
       parameters:
@@ -84,6 +83,35 @@ paths:
                   access_token: 12345678
       tags:
         - Auth
+  '/login/{provider}/code':
+    get:
+      summary: Get Social Account Token Code
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: Success get code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSchema'
+              example:
+                meta:
+                  code: 200
+                  status: success
+                  message:
+                data:
+                  code: abcdexdjsakfsagsagasx123341412
+                  provider: google
+      parameters:
+        - name: provider
+          required: true
+          in: path
+          schema:
+            type: string
+            enum:
+              - google
+              - github
   '/urls':
     get:
       summary: ''
