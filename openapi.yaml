@@ -58,12 +58,19 @@ paths:
             enum:
               - google
               - github
-        - name: code
-          in: query
-          required: true
-          schema:
-            type: string
       operationId: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  required: false
+            example:
+              code: kdhsaiufyusy309129472185941f
       responses:
         default:
           description: Default response
