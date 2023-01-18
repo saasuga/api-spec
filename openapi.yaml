@@ -84,7 +84,127 @@ paths:
                   access_token: 12345678
       tags:
         - Auth
-security: []
+  '/urls':
+    get:
+      summary: ''
+      description: Get all user's ShortURL
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSchema'
+              example:
+                meta:
+                  code: 200
+                  status: success
+                  message: null
+                data:
+                  urls:
+                    - id: 11
+                      title: Saasuga Shortener
+                      destination: https://saasu.ga
+                      keyword: saasuga
+                      expiration: 622936665
+      tags:
+        - Url
+    post:
+      summary: ''
+      description: Create new ShortURL
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSchema'
+              example:
+                meta:
+                  code: 200
+                  status: success
+                  message: Success add new url
+                data:
+                  id: 11
+                  title: Saasuga Shortener
+                  destination: https://saasu.ga
+                  keyword: saasuga
+                  expiration: 622936665
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destination:
+                  type: string
+                  required: true
+                title:
+                  type: string
+                keyword:
+                  type: string
+            example:
+              title: Saasuga Shortener
+              destination: https://saasu.ga
+              keyword: saasuga
+      tags:
+        - Url
+  'urls/{id}':
+    put:
+      summary: ''
+      description: Edit the user's URL
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: int
+      responses:
+        '204':
+          description: Success Response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destination:
+                  type: string
+                  required: true
+                title:
+                  type: string
+                keyword:
+                  type: string
+            example:
+              title: Google Web Address
+              destination: https://google.com
+              keyword: google-short
+      tags:
+        - Url
+    delete:
+      summary: ''
+      description: Delete the user's URL
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: int
+      responses:
+        '204':
+          description: Success Response
+      tags:
+        - Url
 components:
   links: {}
   callbacks: {}
@@ -104,4 +224,9 @@ components:
               type: string
         data:
           type: object
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token for authenticated user
 tags: []
