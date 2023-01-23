@@ -119,6 +119,39 @@ paths:
             enum:
               - google
               - github
+  '/user':
+    get:
+      summary: Get logged in user
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSchema'
+              example:
+                meta:
+                  code: 200
+                  status: success
+                  message: null
+                data:
+                  urls:
+                    - id: 11
+                      name: John Doe
+                      email: johndoe@mail.com
+      tags:
+        - Auth
+    delete:
+      summary: Logging out active user
+      security:
+        - BearerAuth: []
+      responses:
+        '204':
+          description: Success Response
+      tags:
+        - Auth
   '/urls':
     get:
       summary: ''
